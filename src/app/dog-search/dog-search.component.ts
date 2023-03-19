@@ -3,6 +3,8 @@ import { DogService } from '../services/dog.service';
 import { Dog } from '../models/Dog';
 import { SearchResult } from '../models/SearchResult';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { MatchDialogComponent } from '../match-dialog/match-dialog.component';
 
 @Component({
   selector: 'app-dog-search',
@@ -24,13 +26,17 @@ export class DogSearchComponent implements OnInit {
 
   mostRecentSearchResult: SearchResult | undefined = undefined
 
+  favoriteDogs: Dog[] = []
+
   @ViewChild('paginator') 
   paginator!: MatPaginator;
   pageSize = 25
   pageLength = 0
   dogList: Dog[] = []
 
-  constructor(private dogService: DogService) {}
+  constructor(
+    private dogService: DogService,
+    private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.dogService.getDogBreeds().subscribe({
@@ -95,6 +101,48 @@ export class DogSearchComponent implements OnInit {
     this.mostRecentSearchResult = result
     this.pageLength = result.total
     this.getDogs(result.resultIds)
+  }
+
+  /**
+   * Helper method for checking if a dog has been selected as a favorite
+   */
+  dogIsSelected(dogId: string): boolean {
+    return Boolean(this.favoriteDogs.find(dog => dog.id === dogId))
+  }
+
+  /**
+   * Toggles the dogs favorite status
+   */
+  favoriteDogSelected(selectedDog: Dog) {
+    if (this.dogIsSelected(selectedDog.id)) {
+      this.favoriteDogs = this.favoriteDogs.filter(dog => dog.id !== selectedDog.id)
+    } else {
+      this.favoriteDogs.push(selectedDog)
+    }
+  }
+
+  /**
+   * Finds a dog match from the selected favorite dogs
+   */
+  findAMatch() {
+    const dogIds = this.favoriteDogs.map(dog => dog.id)
+    if (dogIds.length === 0) return
+    this.dogService.findAMatch(dogIds).subscribe({
+      next: data => {
+        const matchedDog = this.favoriteDogs.find(dog => dog.id === data.match)
+        if (matchedDog)
+          this.openDialog(matchedDog)
+      }
+    })
+  }
+  
+  /**
+   * Display matched dialog!
+   */
+  openDialog(dog: Dog): void {
+    const dialogRef = this.dialog.open(MatchDialogComponent, {
+      data: dog,
+    });
   }
 
   /**

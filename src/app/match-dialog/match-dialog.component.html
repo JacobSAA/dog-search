@@ -1,0 +1,16 @@
+<div class="flex-column container">
+    <h1 mat-dialog-title> MATCH FOUND! </h1>
+    <mat-card class="dog-card">
+        <img mat-card-image [src]="data.img" >
+        <mat-card-title>{{data.name}}</mat-card-title>
+        <mat-card-content class="dog-card-content flex-column">
+            <span><b>Breed:</b> {{data.breed}}</span>
+            <span><b>Age:</b> {{data.age}}</span>
+            <span><b>Zip Code:</b> {{data.zip_code}}</span>
+        </mat-card-content>
+    </mat-card>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">No Thanks</button>
+      <button mat-button (click)="match()" class="match-button">Match!</button>
+    </div>
+</div>

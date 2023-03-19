@@ -1,0 +1,23 @@
+.container {
+    align-items: center;
+}
+
+.match-button {
+    background-color: #00cc00;
+    color: white !important;
+}
+
+.dog-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.1);
+    width: 400px;
+
+    & img {
+        object-fit: cover;
+        width: 400px;
+        height: 400px;
+    }
+}

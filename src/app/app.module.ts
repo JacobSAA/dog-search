@@ -10,18 +10,22 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select'
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DogSearchComponent } from './dog-search/dog-search.component';
 import { LoginService } from './services/login.service';
 import { DogService } from './services/dog.service';
 import { BaseInterceptor } from './services/base-interceptor.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { MatchDialogComponent } from './match-dialog/match-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DogSearchComponent
+    DogSearchComponent,
+    MatchDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +36,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
     MatButtonModule,
     MatPaginatorModule,
     MatSelectModule,
+    MatIconModule,
+    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule

@@ -28,6 +28,12 @@
                 </div>
             </div>
         </div>
+        <div class="search-match flex-row">
+            Favorite dogs selected: {{favoriteDogs.length}}
+            <button mat-button class="find-match-button" (click)="findAMatch()">
+                Find a Match!
+            </button>
+        </div>
     </div>
     <div class="search-body">
         <div class="dog-list">
@@ -38,6 +44,10 @@
                     <span><b>Breed:</b> {{dog.breed}}</span>
                     <span><b>Age:</b> {{dog.age}}</span>
                     <span><b>Zip Code:</b> {{dog.zip_code}}</span>
+                    <button mat-button (click)="favoriteDogSelected(dog)">
+                        <mat-icon *ngIf="!dogIsSelected(dog.id)" style="color: #3cb043">favorite_border</mat-icon>
+                        <mat-icon *ngIf="dogIsSelected(dog.id)" style="color: #3cb043">favorite</mat-icon>
+                    </button>
                 </mat-card-content>
             </mat-card>
         </div>
