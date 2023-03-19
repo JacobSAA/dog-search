@@ -15,12 +15,12 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'dog-search'
+    redirectTo: 'login'
   },
   {
     path: '**',
     pathMatch: 'full',
-    redirectTo: 'dog-search'
+    redirectTo: 'login'
   }
 ];
 

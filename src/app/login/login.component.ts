@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { LoginService } from '../services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +11,18 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class LoginComponent {
 
   form: FormGroup = new FormGroup({
-    username: new FormControl(''),
-    password: new FormControl(''),
+    name: new FormControl(''),
+    email: new FormControl(''),
   });
+
+  constructor(
+    private loginService: LoginService,
+    private router: Router) { }
+
+  submit() {
+    this.loginService.login(this.form.getRawValue()).subscribe({
+      next: data => this.router.navigate(["dog-search"]),
+      error: err => console.log(err)
+    })
+  }
 }

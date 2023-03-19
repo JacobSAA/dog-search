@@ -11,6 +11,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DogSearchComponent } from './dog-search/dog-search.component';
+import { LoginService } from './services/login.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { BaseInterceptor } from './services/base-interceptor.service';
+import { DogService } from './services/dog.service';
 
 @NgModule({
   declarations: [
@@ -21,6 +25,7 @@ import { DogSearchComponent } from './dog-search/dog-search.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
@@ -29,7 +34,15 @@ import { DogSearchComponent } from './dog-search/dog-search.component';
     ReactiveFormsModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    LoginService,
+    DogService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BaseInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
