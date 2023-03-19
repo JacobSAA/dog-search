@@ -1,30 +1,50 @@
 <div class="container">
     <div class="search-header">
         <h1>
-            Dog Search!
+            Dog Search
         </h1>
-        <div class="breed-selector">
-            <mat-label>Dog Breed</mat-label>
-            <mat-select [(value)]="selectedBreed" (selectionChange)="breedSelectionChanged($event)">
-              <mat-option *ngFor="let breed of breeds" [value]="breed">
-                {{breed}}
-              </mat-option>
-            </mat-select>
+        <div class="filters">
+            <div class="flex-column">
+                <mat-label>Sort By</mat-label>
+                <div class="selector">
+                    <mat-select [(value)]="selectedSortBy" (selectionChange)="onSelectionChanged()">
+                        <mat-option *ngFor="let sortBy of sortByOptions" [value]="sortBy">
+                            {{sortBy.field + " " + sortBy.dir.toUpperCase()}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <div class="flex-column">
+                <mat-label>Dog Breed</mat-label>
+                <div class="selector">
+                    <mat-select [(value)]="selectedBreed" (selectionChange)="onSelectionChanged()">
+                        <mat-option [value]="undefined">
+                            All
+                        </mat-option>
+                        <mat-option *ngFor="let breed of breeds" [value]="breed">
+                            {{breed}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="dog-list">
-        <mat-card *ngFor="let dog of dogList" class="dog-card">
-            <mat-card-title>
-                <span> {{dog.name}}</span>
-            </mat-card-title>
-            <mat-card-content>
-                <img [src]="dog.img" />
-            </mat-card-content>
-        </mat-card>
+    <div class="search-body">
+        <div class="dog-list">
+            <mat-card *ngFor="let dog of dogList" class="dog-card">
+                <img mat-card-image [src]="dog.img" >
+                <mat-card-title>{{dog.name}}</mat-card-title>
+                <mat-card-content class="dog-card-content flex-column">
+                    <span><b>Breed:</b> {{dog.breed}}</span>
+                    <span><b>Age:</b> {{dog.age}}</span>
+                    <span><b>Zip Code:</b> {{dog.zip_code}}</span>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <mat-paginator #paginator [length]="pageLength"
+            [pageSize]="pageSize"
+            (page)="pageChange($event)"
+            hidePageSize="true">
+        </mat-paginator>
     </div>
-    <mat-paginator [length]="pageLength"
-        [pageSize]="pageSize"
-        (page)="pageChange($event)"
-        hidePageSize="true">
-    </mat-paginator>
 </div>

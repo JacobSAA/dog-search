@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DogService } from '../services/dog.service';
-import { MatSelectChange } from '@angular/material/select';
 import { Dog } from '../models/Dog';
 import { SearchResult } from '../models/SearchResult';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-dog-search',
@@ -12,9 +12,20 @@ import { SearchResult } from '../models/SearchResult';
 export class DogSearchComponent implements OnInit {
 
   breeds = []
-  selectedBreed = ""
+  selectedBreed: any = undefined
+
+  sortByOptions = [
+    {field: "Breed", dir: "asc"},
+    {field: "Breed", dir: "desc"},
+    {field: "Name", dir: "asc"},
+    {field: "Name", dir: "desc"},
+  ]
+  selectedSortBy = this.sortByOptions[0]
+
   mostRecentSearchResult: SearchResult | undefined = undefined
 
+  @ViewChild('paginator') 
+  paginator!: MatPaginator;
   pageSize = 25
   pageLength = 0
   dogList: Dog[] = []
@@ -33,7 +44,7 @@ export class DogSearchComponent implements OnInit {
    * page loads, OR when a user changes a filter/search parameter
    */
   dogSearch() {
-    this.dogService.dogSearch().subscribe({
+    this.dogService.dogSearch(this.selectedBreed, this.selectedSortBy, this.pageSize).subscribe({
       next: data => {
         this.processSearchQuery(data)
       }
@@ -105,10 +116,10 @@ export class DogSearchComponent implements OnInit {
   }
 
   /**
-   * Handle breed change event from breed selector
-   * @param e 
+   * Handle all filter changes like breed and sort
    */
-  breedSelectionChanged(e: MatSelectChange) {
-    console.log(e.value)
+  onSelectionChanged() {
+    this.dogSearch()
+    this.paginator.pageIndex = 0
   }
 }

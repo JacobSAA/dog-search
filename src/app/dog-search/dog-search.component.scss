@@ -1,7 +1,6 @@
 .container {
     display: flex;
     flex-direction: column;
-    padding: 10px 50px;
 }
 
 .search-header {
@@ -9,10 +8,30 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    background-color: rgb(48 13 56);
+    color: white;
+    padding: 10px 50px;
 }
 
-.breed-selector {
-    width: 200px;
+.search-body {
+    padding: 10px 50px;
+}
+
+::ng-deep .mat-mdc-select-value {
+    color: white;
+}
+::ng-deep .mat-mdc-select-arrow {
+    color: white;
+}
+
+.selector {
+    min-width: 200px;
+    max-width: 300px;
+    margin-right: 10px;
+    margin-top: 3px;
+    outline: 2px solid white;
+    border-radius: 2px;
+    padding: 3px;
 }
 
 .dog-list {
@@ -21,11 +40,19 @@
     flex-wrap: wrap;
 }
 
+.filters {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .dog-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 10px 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.1);
+    width: 200px;
 
     & img {
         object-fit: cover;

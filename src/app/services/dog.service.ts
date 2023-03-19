@@ -23,11 +23,17 @@ export class DogService {
    * Search for dogs with filters and sorting
    * @returns 
    */
-  dogSearch(): Observable<SearchResult> {
-    let params = new HttpParams()
+  dogSearch(breed: string, sort: any, pageSize: number): Observable<SearchResult> {
+    let params = new HttpParams().set('size', pageSize)
     
-    // params.set('breeds')
+    if (breed && breed !== "") {
+      params = params.set('breeds', breed)
+    }
 
+    if (sort) {
+      params = params.set('sort', sort.field.toLowerCase() + ":" + sort.dir)
+    }
+    
     return this.httpClient.get<SearchResult>("/dogs/search", {params})
   }
 
