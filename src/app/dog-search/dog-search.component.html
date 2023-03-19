@@ -1,4 +1,30 @@
-<mat-paginator [length]="100"
-              [pageSize]="10"
-              aria-label="Select page">
-</mat-paginator>
+<div class="container">
+    <div class="search-header">
+        <h1>
+            Dog Search!
+        </h1>
+        <div class="breed-selector">
+            <mat-label>Dog Breed</mat-label>
+            <mat-select [(value)]="selectedBreed" (selectionChange)="breedSelectionChanged($event)">
+              <mat-option *ngFor="let breed of breeds" [value]="breed">
+                {{breed}}
+              </mat-option>
+            </mat-select>
+        </div>
+    </div>
+    <div class="dog-list">
+        <mat-card *ngFor="let dog of dogList" class="dog-card">
+            <mat-card-title>
+                <span> {{dog.name}}</span>
+            </mat-card-title>
+            <mat-card-content>
+                <img [src]="dog.img" />
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <mat-paginator [length]="pageLength"
+        [pageSize]="pageSize"
+        (page)="pageChange($event)"
+        hidePageSize="true">
+    </mat-paginator>
+</div>

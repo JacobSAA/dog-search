@@ -21,8 +21,8 @@ export class LoginComponent {
 
   submit() {
     this.loginService.login(this.form.getRawValue()).subscribe({
-      next: data => this.router.navigate(["dog-search"]),
-      error: err => console.log(err)
+      next: () => this.router.navigate(["dog-search"]),
+      error: err => console.error(err)
     })
   }
 }
